@@ -1,4 +1,4 @@
-import { IsDecimal, IsInt, IsOptional, IsString } from 'class-validator';
+import { IsDecimal, IsInt, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class CreateServiceDto {
     @IsString()
@@ -13,6 +13,9 @@ export class CreateServiceDto {
 
     @IsInt()
     categoryId: number;
+
+    @IsNumber()
+    orderNumber: number;
 }
 
 export class UpdateServiceDto {
@@ -30,4 +33,8 @@ export class UpdateServiceDto {
 
     @IsInt()
     categoryId: number;
+
+    @IsOptional()
+    @IsNumber()
+    orderNumber: number;
 }
