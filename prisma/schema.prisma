@@ -1,0 +1,51 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model Category {
+    id          Int     @id @default(autoincrement())
+    name        String
+    description String?
+    isPayable   Boolean
+    orderNumber Int
+
+    services Service[]
+}
+
+model Service {
+    id          Int     @id @default(autoincrement())
+    name        String
+    description String?
+    price       Float?
+
+    ServicesInCart ServicesInCart[]
+
+    category   Category @relation(fields: [categoryId], references: [id])
+    categoryId Int
+}
+
+model ServicesInCart {
+    service   Service @relation(fields: [serviceId], references: [id])
+    serviceId Int
+    user      User    @relation(fields: [userId], references: [id])
+    userId    Int
+
+    @@id([userId, serviceId])
+}
+
+model User {
+    id                Int     @id @default(autoincrement())
+    name              String?
+    email             String?
+    phone             String?
+    telegramId        String  @unique
+    currentCategoryId Int
+    currentServiceId  Int
+
+    ServicesInCart ServicesInCart[]
+}
