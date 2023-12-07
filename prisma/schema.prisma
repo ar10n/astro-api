@@ -16,6 +16,8 @@ model Category {
     orderNumber Int
 
     services Service[]
+    offers   Offer[]
+    photos   Photo[]
 }
 
 model Service {
@@ -38,6 +40,23 @@ model ServicesInCart {
     userId    Int
 
     @@id([userId, serviceId])
+}
+
+model Photo {
+    id  Int    @id @default(autoincrement())
+    url String
+
+    category   Category @relation(fields: [categoryId], references: [id])
+    categoryId Int
+}
+
+model Offer {
+    id          Int     @id @default(autoincrement())
+    name        String?
+    description String?
+
+    category   Category @relation(fields: [categoryId], references: [id])
+    categoryId Int
 }
 
 model User {
